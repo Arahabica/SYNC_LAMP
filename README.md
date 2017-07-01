@@ -52,7 +52,10 @@ Sync /var/www directory between multiple servers.
 * Replace **`YOUR_SLAVE_PRIVATE_IP`**
 ```
 IPS=YOUR_SLAVE_PRIVATE_IP1,YOUR_SLAVE_PRIVATE_IP2 && curl -fsSL https://raw.githubusercontent.com/Arahabica/SYNC_LAMP/5133f8c2f2505ab3445631ed56dd9db362ebea07/sync_master.sh | IPS=${IPS} sh
+sudo bash reboot
 ```
+
+
 ## Slave Servers
 
 ### Set Security Group (if AWS)
@@ -68,5 +71,5 @@ SlaveのEC2にこのSecurity Groupを割り当てる。
 * Replace **`YOUR_MASTER_PRIVATE_IP`**, **`YOUR_MASTER_PUBLIC_KEY`**
 
 ```
-IP=YOUR_MASTER_PRIVATE_IP && KEY="YOUR_MASTER_PUBLIC_KEY" && curl -fsSL https://gist.githubusercontent.com/Arahabica/ec9dd780691265485fb333144bba5c1b/raw/e0a2d7dcba194e2430c0b9a06264c861ee92d031/sync_slave.sh | IP=${IP} KEY=${KEY} sh'
+IP=YOUR_MASTER_PRIVATE_IP && KEY="YOUR_MASTER_PUBLIC_KEY" && curl -fsSL https://raw.githubusercontent.com/Arahabica/SYNC_LAMP/a5fc217c488938a175a3b65e58dabe97a5e4b486/sync_slave.sh | IP=${IP} KEY="${KEY}" sh
 ```
