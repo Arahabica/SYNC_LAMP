@@ -13,7 +13,7 @@ Elastic IP > 該当IPのレコード > 右クリック > 関連付け
 \> 作成 > インスタンスとPrivate IPを選択 > OK
 
 ```
-curl -fsSL https://gist.githubusercontent.com/Arahabica/ea12ebccb7cea5b0f85e310d4698506a/raw/aacde8ea47797779997d3824e6cf2c1ccdb09665/CentOS_LAMP_Setup.sh | sh
+curl -fsSL https://raw.githubusercontent.com/Arahabica/SYNC_LAMP/fd7c6193d3c12a43a4815dc6ab333561201f34ec/setup_lamp.sh | sh
 ```
 
 # Auto Recovery  (if AWS)
@@ -32,8 +32,9 @@ Take the Action > Recover this instance
 
 webmaster can edit /var/www
 
+* Replace **`YOUR_WEBMASTER_PASSWORD`**
 ```
-P=YOUR_WEBMASTER_PASSWORD && curl -fsSL https://gist.githubusercontent.com/Arahabica/998bddd47de8cfd5f12a02ba6364ef57/raw/0d1a1bbd2fa63daadc456f611e5b9a7161019d43/set_webmaster_user.sh | sed "s/WEBMASTER_PASSWORD/$P/g" | sh
+P=YOUR_WEBMASTER_PASSWORD && curl -fsSL https://raw.githubusercontent.com/Arahabica/SYNC_LAMP/fd7c6193d3c12a43a4815dc6ab333561201f34ec/add_webmaster.sh | sed "s/WEBMASTER_PASSWORD/$P/g" | sh
 ```
 
 # Sync Servers
