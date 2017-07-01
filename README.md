@@ -1,5 +1,9 @@
 # Setup LAMP Server
 
+* CentOS6
+* Apache 2.2
+* MySQL Client 5.7
+* PHP5.6
 
 ## Launch Server (if AWS)
 Console GUI
@@ -11,6 +15,8 @@ EC2 > Elastic IP > IP作成
 Elastic IP > 該当IPのレコード > 右クリック > 関連付け
 
 \> 作成 > インスタンスとPrivate IPを選択 > OK
+
+## Setup LAMP Server
 
 ```
 curl -fsSL https://raw.githubusercontent.com/Arahabica/SYNC_LAMP/fd7c6193d3c12a43a4815dc6ab333561201f34ec/setup_lamp.sh | sh
