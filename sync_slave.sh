@@ -1,6 +1,7 @@
+#!/bin/bash
 
 # Check IP and KEY variable
-if ([ -z ${IP} ]  || [ -z ${KEY} ]); then
+if ([ -z ${IP} ]  || [ -z "${KEY}" ]); then
   echo "Please set IPS variable";
   echo "Run this script like below code.";
   echo "";
@@ -24,7 +25,7 @@ sudo /etc/init.d/xinetd start
 sudo chkconfig xinetd on
 
 # /etc/xinetd.d/rsync
-sudo cat > /etc/xinetd.d/rsync << EOF
+sudo cat << EOF > /dev /null | sudo tee /etc/xinetd.d/rsync
 # default: off
 # description: The rsync server is a good addition to an ftp server, as it \
 #       allows crc checksumming etc.
@@ -42,7 +43,7 @@ service rsync
 EOF
 
 # /etc/rsyncd.conf
-sudo cat > /etc/rsyncd.conf << EOF
+sudo cat << EOF > /dev/null | sudo tee /etc/rsyncd.conf
 # /etc/rsyncd.conf
 uid = root
 gid = root

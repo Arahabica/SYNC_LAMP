@@ -11,12 +11,12 @@ if [ -z ${IPS} ]; then
 fi
 
 # Install lsyncd
-sudo yum install --enablerepo=epel lsyncd
+sudo yum -y install --enablerepo=epel lsyncd
 sudo chkconfig lsyncd on
 
 # Setting lsyncd
 LSYNCD_SETTING_PATH=/etc/lsyncd.conf
-cat > $LSYNCD_SETTING_PATH << EOF
+sudo tee $LSYNCD_SETTING_PATH <<EOF >/dev/null
 settings{
         insist = true,
         statusFile = "/tmp/lsyncd.stat",
@@ -45,16 +45,28 @@ IFS_BAK=$IFS
 IFS=","
 for IP in ${IPS}
 do
-  sed -E "s/((\".+)SLAVE_PRIVATE_IP([^\"]+\"))/\1,\2${IP}\3/g" ${LSYNCD_SETTING_PATH} > ${LSYNCD_SETTING_PATH}.tmp
-  mv ${LSYNCD_SETTING_PATH}.tmp ${LSYNCD_SETTING_PATH}
+  sudo sed -E "s/((\".+)SLAVE_PRIVATE_IP([^\"]+\"))/\1,\2${IP}\3/g" ${LSYNCD_SETTING_PATH} | sudo tee ${LSYNCD_SETTING_PATH}.tmp > /dev/null
+  sudo mv ${LSYNCD_SETTING_PATH}.tmp ${LSYNCD_SETTING_PATH}
 done
-sed -E 's/((".+)SLAVE_PRIVATE_IP([^\"]+\")),//g' ${LSYNCD_SETTING_PATH} > ${LSYNCD_SETTING_PATH}.tmp
-mv ${LSYNCD_SETTING_PATH}.tmp ${LSYNCD_SETTING_PATH}
+sudo sed -E 's/((".+)SLAVE_PRIVATE_IP([^\"]+\")),//g' ${LSYNCD_SETTING_PATH} | sudo tee ${LSYNCD_SETTING_PATH}.tmp > /dev/null
+sudo mv ${LSYNCD_SETTING_PATH}.tmp ${LSYNCD_SETTING_PATH}
 IFS=$IFS_BAK
 
 # Create Key
-sudo ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
+if ! sudo test -f /root/.ssh/id_rsa; then
+  sudo ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
+fi
 echo ""
 echo "Public key is below."
 echo ""
 sudo cat /root/.ssh/id_rsa.pub
+
+# Add known_hosts
+IFS_BAK=$IFS
+IFS=","
+for IP in ${IPS}
+do
+  sudo ssh-keygen -R ${IP}
+  sudo ssh-keyscan -H ${IP} | sudo tee -a /root/.ssh/known_hosts > /dev/null
+done
+IFS=$IFS_BAK
