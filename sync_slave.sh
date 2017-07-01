@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check IP and KEY variable
-if ([ -z ${IP} ]  || [ -z "${KEY}" ]); then
+if ([ -z "${IP}" ]  || [ -z "${KEY}" ]); then
   echo "Please set IPS variable";
   echo "Run this script like below code.";
   echo "";
@@ -13,19 +13,19 @@ fi
 sudo useradd rsync
 sudo usermod -G webmaster rsync
 sudo mkdir /home/rsync/.ssh
-sudo echo ${KEY} > /home/rsync/.ssh/authorized_keys
+sudo echo ${KEY} | sudo tee /home/rsync/.ssh/authorized_keys > /dev/null
 sudo chown sync /home/rsync/.ssh
 sudo chown -R rsync /home/rsync/.ssh
 sudo chmod 600 /home/rsync/.ssh/authorized_keys
 sudo chmod 700 /home/rsync/.ssh
 
 # Install xinetd
-sudo  yum install xinetd
+sudo yum -y install xinetd
 sudo /etc/init.d/xinetd start
 sudo chkconfig xinetd on
 
 # /etc/xinetd.d/rsync
-sudo cat << EOF > /dev /null | sudo tee /etc/xinetd.d/rsync
+sudo cat << EOF | sudo tee /etc/xinetd.d/rsync > /dev/null
 # default: off
 # description: The rsync server is a good addition to an ftp server, as it \
 #       allows crc checksumming etc.
@@ -43,7 +43,7 @@ service rsync
 EOF
 
 # /etc/rsyncd.conf
-sudo cat << EOF > /dev/null | sudo tee /etc/rsyncd.conf
+sudo cat << EOF | sudo tee /etc/rsyncd.conf > /dev/null
 # /etc/rsyncd.conf
 uid = root
 gid = root
