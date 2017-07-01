@@ -1,8 +1,33 @@
 # Setup LAMP Server
 
+
+## Launch Server (if AWS)
+Console GUI
+
+EC2 > インスタンス作成 > AWS Market Place > CentOS 6 (x86_64) - with Updates HVM > 各種設定 > インスタンス作成
+
+EC2 > Elastic IP > IP作成
+
+Elastic IP > 該当IPのレコード > 右クリック > 関連付け
+
+\> 作成 > インスタンスとPrivate IPを選択 > OK
+
 ```
 curl -fsSL https://gist.githubusercontent.com/Arahabica/ea12ebccb7cea5b0f85e310d4698506a/raw/aacde8ea47797779997d3824e6cf2c1ccdb09665/CentOS_LAMP_Setup.sh | sh
 ```
+
+# Auto Recovery  (if AWS)
+
+ref) http://aws.typepad.com/aws_japan/2015/03/ec2-auto-recovery-new-region.html
+
+EC2のインスタンス一覧画面 > 対象インスタンスの行 > アラームステータスのベルをクリック
+
+Send Notification > Create Topic > Topic Nameを適当につける > 通知先メールアドレスを入力
+Take the Action > Recover this instance
+
+登録したメールアドレスに確認メールが届いているので、処理をする
+
+
 # Add webmaster user
 
 webmaster can edit /var/www
@@ -22,6 +47,16 @@ Sync /var/www directory between multiple servers.
 IPS=YOUR_SLAVE_PRIVATE_IP1,YOUR_SLAVE_PRIVATE_IP2 && curl -fsSL https://raw.githubusercontent.com/Arahabica/SYNC_LAMP/5133f8c2f2505ab3445631ed56dd9db362ebea07/sync_master.sh | IPS=${IPS} sh
 ```
 ## Slave Servers
+
+### Set Security Group (if AWS)
+EC2 > Security Group
+
+Security Group 作成
+
+TCP 873 VPCのIPレンジ(172.31.0.0/16など)
+
+SlaveのEC2にこのSecurity Groupを割り当てる。
+
 
 * Replace **`YOUR_MASTER_PRIVATE_IP`**, **`YOUR_MASTER_PUBLIC_KEY`**
 
