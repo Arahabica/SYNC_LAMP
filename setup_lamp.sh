@@ -27,6 +27,9 @@ sudo yum -y install yum-utils
 sudo yum-config-manager --enable mysql57-community-dmr
 sudo yum -y install mysql
 
+# HTTP => RDS
+sudo setsebool -P httpd_can_network_connect 1
+
 # Confirm Version (Optional)
 cat /etc/redhat-release
   # CentOS release 6.9 (Final)
